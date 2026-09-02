@@ -6,3 +6,8 @@ export const items: { q: string; a: string }[] = [
     { q: "Czy ryczałt to zawsze najtaniej?", a: "Zależy. Przy wysokich kosztach (leasing samochodu, wynajem biura) ryczałt może być droższy niż skala czy liniowy. Przy niskich kosztach — wygrywa bezapelacyjnie." },
     { q: "Co z VAT?", a: "Ryczałt to forma opodatkowania przychodów, a VAT jest odrębnym podatkiem. W 2026 r. limit zwolnienia podmiotowego z VAT wynosi co do zasady 240 000 zł sprzedaży, ale istnieją czynności wyłączone ze zwolnienia." },
   ];
+
+export const faqSectionContent = {
+  eyebrow: "§ 05 — pytania",
+  titleLines: ["PYTANIA,", "KTÓRE", "ZADAJESZ"],
+};

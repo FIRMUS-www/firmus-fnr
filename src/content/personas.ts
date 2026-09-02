@@ -6,3 +6,11 @@ export const personas: { tag: string; t: string; d: string; emoji: string }[] = 
     { tag: "HANDEL", t: "E-commerce", d: "Działalność usługowa w zakresie handlu może podlegać stawce 3%, z ustawowymi wyjątkami.", emoji: "📦" },
     { tag: "MARKETING", t: "Treści i reklama", d: "Usługi reklamowe są przykładem stawki 15%; samo tworzenie treści może wymagać innej klasyfikacji.", emoji: "✍️" },
   ];
+
+export const personasSectionContent = {
+  eyebrow: "§ 03 — dla kogo",
+  titleLine1: "NIE DLA",
+  titleLine2: "KAŻDEGO",
+  description:
+    "Ryczałt nie jest uniwersalny. Sprawdź, czy do Ciebie pasuje — zanim złożysz oświadczenie. Termin zależy od miesiąca uzyskania pierwszego przychodu w roku.",
+};

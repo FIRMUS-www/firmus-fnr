@@ -1,0 +1,51 @@
+export const calculatorContent = {
+  sectionEyebrow: "§ 02 — kalkulator opłacalności",
+  titleBeforeAccent: "POLICZMY",
+  titleAccent: "TO",
+  description:
+    "Wprowadź realistyczne dane, aby otrzymać wynik możliwie bliski rzeczywistym obciążeniom.",
+  assumptionsEyebrow: "Założenia",
+  assumptionsTitle: "DANE FIRMY",
+  revenueLabel: "Średni miesięczny przychód",
+  costsLabel: "Średnie miesięczne koszty",
+  costsHint: "Koszty nie wpływają na podstawę ryczałtu.",
+  flatRateLabel: "Stawka ryczałtu",
+  sicknessLabel: "Dobrowolne chorobowe",
+  sicknessHintBeforeAmount: "Preferencyjny ZUS:",
+  sicknessHintAfterAmount: "zł przez miesiące 7–12.",
+  resultAverageLabel: "Średnio",
+  monthlySuffix: "PLN / mies.",
+  annuallyLabel: "Rocznie:",
+  inputCurrency: "PLN",
+  amountSuffix: "zł",
+  columns: {
+    component: "Składnik",
+    monthly: "mies.",
+    annual: "12 mies.",
+  },
+  resultRows: {
+    tax: "Podatek",
+    health: "Zdrowotna",
+    social: "ZUS społeczny",
+    total: "Razem",
+  },
+  flatRateVariant: {
+    eyebrow: "Ryczałt ewidencjonowany",
+    title: "Ryczałt",
+  },
+  scaleVariant: {
+    eyebrow: "Skala podatkowa",
+    title: "Skala",
+  },
+  notes: [
+    "Model pierwszych 12 miesięcy według parametrów 2026: 6 miesięcy Ulgi na start, następnie 6 miesięcy preferencyjnego ZUS.",
+    "Skala zakłada rozliczenie indywidualne, brak innych dochodów opodatkowanych skalą i pełną kwotę wolną 30 000 zł.",
+    "Wyniki są szacunkiem dla równych miesięcy. Wpisuj kwoty bez VAT. Kalkulator nie uwzględnia ulg, strat ani wspólnego rozliczenia.",
+  ],
+  defaults: {
+    monthlyRevenue: 10_000,
+    monthlyCosts: 1_000,
+    flatRate: 8.5,
+    sicknessInsurance: true,
+  },
+};

@@ -1,0 +1,40 @@
+export const heroContent = {
+  ticker: [
+    "● NAZWISK NIE POKAZUJEMY",
+    "STAWKI OD 2% DO 17% · SPRAWDŹ PKWiU",
+    "LIMIT 2 MLN EUR",
+    "BEZ KSIĘGI HANDLOWEJ",
+    "EDG#CEIDG#VAT",
+  ],
+  edition: "Wydanie 07 / Lato 2026",
+  updatedAt: "· aktualizacja 2 września 2026",
+  title: "RYCZAŁT",
+  leadHighlight: "Porównaj opcje",
+  leadMiddle: "i przekonaj się, czy na ryczałcie",
+  leadEndHighlight: "rzeczywiście zapłacisz mniej.",
+  primaryCta: { label: "Kalkulator opłacalności", href: "#kalkulator" },
+  secondaryCta: { label: "Przykłady firm", href: "#dla-kogo" },
+  summary: {
+    title: "Ryczałt w 2026",
+    items: [
+      { label: "Górny limit", value: "2 mln EUR" },
+      { label: "Stawki", value: "od 2% do 17%" },
+      { label: "Składka zdrowotna", value: "498,35 / 830,58 / 1 495,04 zł" },
+    ],
+  },
+  alert: {
+    eyebrow: "⚠ Uwaga",
+    title: "RZĄD PLANUJE ZMIANY W RYCZAŁCIE OD 2027 R.",
+    cta: "CZYTAJ WIĘCEJ →",
+    href: "#zmiany-2027",
+  },
+  fact: {
+    eyebrow: "#Fakt",
+    meta: "Interpretacja KIS · 18.05.2026",
+    beforeHighlight: "KIS potwierdził",
+    highlight: "8,5% ryczałtu",
+    afterHighlight: "dla wybranych usług technicznych i postprodukcyjnych.",
+    cta: "ZOBACZ INTERPRETACJĘ ↗",
+    href: "https://eureka.mf.gov.pl/informacje/podglad/692138",
+  },
+};

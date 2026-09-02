@@ -5,3 +5,9 @@ export const steps: { n: string; t: string; d: string }[] = [
     { n: "04", t: "Płatność", d: "Co miesiąc do 20. dnia — podatek za poprzedni miesiąc. Bez PIT-5, bez zaliczek." },
     { n: "05", t: "Rozliczenie roczne", d: "PIT-28 składasz od 15 lutego do 30 kwietnia następnego roku. Pamiętaj też o rocznym rozliczeniu składki zdrowotnej." },
   ];
+
+export const processSectionContent = {
+  eyebrow: "§ 04 — proces",
+  titleLine1: "OD ZERA",
+  titleLine2: "DO PIT-28",
+};

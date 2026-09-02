@@ -1,70 +1,71 @@
 # FirmaNaRyczalcie.pl
 
-Landing page z porównaniem ryczałtu i skali podatkowej dla nowych działalności gospodarczych. Projekt korzysta z React, TypeScript, Vite i Tailwind CSS.
+Statyczna strona z porównaniem ryczałtu i skali podatkowej dla nowych działalności gospodarczych. Projekt korzysta z React, TypeScript, Vite i Tailwind CSS.
 
-## Uruchomienie lokalne
+## Treści strony
+
+Teksty, etykiety i dane widoczne na stronie są w `src/content/`. Dzięki temu ich aktualizacja nie wymaga szukania tekstu w komponentach odpowiedzialnych za wygląd.
+
+- `navigation.ts` — marka, menu, przycisk i odnośnik dostępnościowy,
+- `hero.ts` — pasek informacji, claim, CTA i trzy karty Hero,
+- `news.ts` — informacje o planowanych zmianach od 2027 r.,
+- `rates.ts` — tabela stawek i formularz doboru stawki,
+- `calculatorContent.ts` — teksty oraz wartości początkowe kalkulatora,
+- `personas.ts` — przykłady działalności,
+- `processSteps.ts` — etapy procesu,
+- `facts.ts` — kafelki z faktami,
+- `faq.ts` — pytania i odpowiedzi,
+- `contact.ts` — sekcja kontaktowa,
+- `footer.ts` — stopka.
+
+Komponenty w `src/components/` odpowiadają przede wszystkim za układ, wygląd i zachowanie strony. Logika obliczeniowa kalkulatora znajduje się w `src/utils/calculator.ts`, a jej testy w `src/utils/calculator.test.ts`.
+
+## Kontrola jakości i build
 
 Wymagany jest Node.js 20 lub nowszy.
 
 ```bash
 npm ci
-npm run dev
-```
-
-## Kontrola jakości
-
-```bash
 npm run check
 ```
 
-Polecenie uruchamia kolejno:
+`npm run check` wykonuje kontrolę TypeScript, testy kalkulatora i produkcyjny build. Gotowa strona trafia do `dist/`. Dzięki `vite-plugin-singlefile` wynik jest pojedynczym plikiem `dist/index.html`.
 
-- kontrolę TypeScript,
-- testy kalkulatora,
-- produkcyjny build.
+## Automatyczna publikacja na SEOHost
 
-## Build produkcyjny
+Workflow `.github/workflows/deploy-seohost.yml` uruchamia się po każdej zmianie zapisanej na gałęzi `main` oraz ręcznie z zakładki **Actions**. Kolejno:
 
-```bash
-npm run build
-```
+1. pobiera źródła,
+2. wykonuje `npm ci`, testy, kontrolę TypeScript i `npm run build`,
+3. przesyła zawartość `dist/` do katalogu domeny na hostingu SEOHost.
 
-Gotowa strona trafia do katalogu `dist/`. Dzięki `vite-plugin-singlefile` wynik jest pojedynczym plikiem `dist/index.html`.
+Jeżeli dane dostępowe nie są jeszcze skonfigurowane, workflow zbuduje i sprawdzi stronę, ale bezpiecznie pominie publikację.
 
-## Publikacja
+### Sekrety GitHub
 
-Projekt można podłączyć do Cloudflare Pages, Vercel lub Netlify:
+W repozytorium wejdź kolejno w:
 
-- build command: `npm run build`
-- output directory: `dist`
+**Settings → Secrets and variables → Actions → New repository secret**
 
-Po wdrożeniu domenę dodaje się w panelu wybranej platformy, a następnie ustawia wskazane przez nią rekordy DNS u operatora domeny.
+Dodaj:
 
-## Struktura
+| Nazwa sekretu | Co wpisać |
+|---|---|
+| `SEOHOST_FTP_SERVER` | serwer FTP pokazany w DirectAdmin/SEOHost |
+| `SEOHOST_FTP_USERNAME` | pełny login konta FTP |
+| `SEOHOST_FTP_PASSWORD` | hasło konta FTP |
+| `SEOHOST_FTP_DIRECTORY` | dokładny katalog WWW domeny, koniecznie zakończony `/` |
+| `SEOHOST_FTP_PROTOCOL` | opcjonalnie `ftps`; przy braku tej wartości używane jest `ftp` |
 
-```text
-src/
-├── components/    # komponenty poszczególnych sekcji strony
-├── content/       # stawki, FAQ, przykłady działalności i inne dane tekstowe
-├── utils/         # logika kalkulatora i funkcje pomocnicze
-├── App.tsx        # układ sekcji
-├── index.css      # style globalne i motyw
-└── main.tsx       # punkt wejścia aplikacji
-```
+Danych dostępowych nie wpisuj do kodu ani do plików projektu.
 
-Najczęściej aktualizowane treści znajdują się w `src/content/`:
+Przed podaniem katalogu docelowego sprawdź go w DirectAdmin. Często ma postać `/domains/firmanaryczalcie.pl/public_html/`, ale nie należy jej przyjmować bez potwierdzenia w panelu lub u pomocy SEOHost. W tym katalogu może już znajdować się domyślny plik `index.html`; publikacja projektu zastąpi plik o tej samej nazwie.
 
-- `rates.ts` — tabela stawek,
-- `faq.ts` — pytania i odpowiedzi,
-- `personas.ts` — przykłady działalności,
-- `processSteps.ts` — etapy procesu,
-- `facts.ts` — kafelki z faktami.
+Po dodaniu sekretów otwórz **Actions → Build and deploy to SEOHost → Run workflow**, aby wykonać pierwszą publikację bez czekania na kolejną zmianę w projekcie.
 
-## Kalkulator
+## Model kalkulatora
 
-Czysta logika obliczeniowa znajduje się w `src/utils/calculator.ts`, a testy w `src/utils/calculator.test.ts`.
-
-Model obejmuje pierwsze 12 miesięcy działalności według parametrów 2026:
+Kalkulator obejmuje pierwsze 12 miesięcy działalności według parametrów 2026:
 
 - 6 miesięcy Ulgi na start,
 - 6 miesięcy preferencyjnych składek społecznych,

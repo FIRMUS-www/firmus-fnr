@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { rates } from "../content/rates";
+import { rates, ratesSectionContent as content } from "../content/rates";
 
 export default function Stawki() {
   const [showRateForm, setShowRateForm] = useState(false);
@@ -7,17 +7,17 @@ export default function Stawki() {
   const handleRateForm = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const subject = encodeURIComponent("Dobór stawki ryczałtu");
+    const subject = encodeURIComponent(content.form.emailSubject);
     const body = encodeURIComponent(
-      `E-mail: ${data.get("email")}
+      `${content.form.emailBodyLabels.email}: ${data.get("email")}
 
-Opis działalności:
+${content.form.emailBodyLabels.activity}:
 ${data.get("activity")}
 
-Posiadane kody PKD / PKWiU:
-${data.get("codes") || "Nie podano"}`
+${content.form.emailBodyLabels.codes}:
+${data.get("codes") || content.form.emailBodyLabels.noCodes}`
     );
-    window.location.href = `mailto:czesc@firmanaryczalcie.pl?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${content.form.recipient}?subject=${subject}&body=${body}`;
   };
 
 
@@ -26,13 +26,13 @@ ${data.get("codes") || "Nie podano"}`
     <section id="stawki" className="border-b-2 border-ink bg-ink text-cream">
       <div className="px-5 md:px-10 pt-16 md:pt-24 pb-6 flex items-end justify-between flex-wrap gap-4">
         <div>
-          <div className="font-mono text-xs uppercase tracking-widest text-lime">§ 01 — stawki ryczałtu</div>
+          <div className="font-mono text-xs uppercase tracking-widest text-lime">{content.eyebrow}</div>
           <h2 className="font-display text-6xl md:text-8xl leading-[0.9] mt-3">
-            ILE<br/>ZAPŁACISZ<span className="text-lime">?</span>
+            {content.titleLine1}<br/>{content.titleLine2}<span className="text-lime">?</span>
           </h2>
         </div>
         <div className="font-mono text-xs text-cream/60 max-w-xs">
-          Stawki według przepisów obowiązujących w 2026 r. Dobór stawki zależy od faktycznie wykonywanych czynności i zwykle od klasyfikacji PKWiU — nie od samego kodu PKD.
+          {content.description}
         </div>
       </div>
 
@@ -60,14 +60,14 @@ ${data.get("codes") || "Nie podano"}`
 
         <div className="mt-12 border-2 border-cream/40 bg-cream text-ink p-6 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8">
           <p className="font-display text-2xl md:text-4xl leading-tight max-w-3xl">
-            Potrzebujesz pomocy w dokładnym określeniu stawki oraz kodów PKD i klasyfikacji PKWiU?
+            {content.ctaText}
           </p>
           <button
             type="button"
             onClick={() => setShowRateForm(true)}
             className="btn-invert shrink-0 bg-lime border-2 border-ink px-6 py-4 font-mono text-sm font-bold tracking-widest uppercase text-left"
           >
-            Dobierz stawkę →
+            {content.ctaLabel}
           </button>
         </div>
       </div>
@@ -88,55 +88,55 @@ ${data.get("codes") || "Nie podano"}`
             <button
               type="button"
               onClick={() => setShowRateForm(false)}
-              aria-label="Zamknij formularz"
+              aria-label={content.form.closeLabel}
               className="absolute top-4 right-4 font-display text-3xl leading-none hover:text-orange"
             >
               ×
             </button>
 
-            <div className="font-mono text-xs uppercase tracking-widest text-ink/60">Krótki formularz</div>
+            <div className="font-mono text-xs uppercase tracking-widest text-ink/60">{content.form.eyebrow}</div>
             <h3 id="rate-form-title" className="font-display text-4xl md:text-5xl leading-none mt-3 pr-10">
-              Dobierz stawkę
+              {content.form.title}
             </h3>
             <p className="mt-4 text-base text-ink/70 max-w-xl">
-              Opisz, czym zajmuje się Twoja firma. Na tej podstawie zweryfikujemy stawkę ryczałtu oraz właściwe klasyfikacje.
+              {content.form.description}
             </p>
 
             <form onSubmit={handleRateForm} className="mt-8 space-y-6">
               <label className="block">
-                <span className="font-mono text-xs uppercase tracking-widest">Twój e-mail</span>
+                <span className="font-mono text-xs uppercase tracking-widest">{content.form.emailLabel}</span>
                 <input
                   type="email"
                   name="email"
                   required
                   className="mt-2 w-full border-2 border-ink bg-paper px-4 py-3 font-sans"
-                  placeholder="nazwa@firma.pl"
+                  placeholder={content.form.emailPlaceholder}
                 />
               </label>
 
               <label className="block">
-                <span className="font-mono text-xs uppercase tracking-widest">Czym zajmuje się firma?</span>
+                <span className="font-mono text-xs uppercase tracking-widest">{content.form.activityLabel}</span>
                 <textarea
                   name="activity"
                   required
                   rows={4}
                   className="mt-2 w-full resize-y border-2 border-ink bg-paper px-4 py-3 font-sans"
-                  placeholder="Opisz świadczone usługi lub sprzedawane produkty…"
+                  placeholder={content.form.activityPlaceholder}
                 />
               </label>
 
               <label className="block">
-                <span className="font-mono text-xs uppercase tracking-widest">Posiadane kody PKD lub PKWiU — opcjonalnie</span>
+                <span className="font-mono text-xs uppercase tracking-widest">{content.form.codesLabel}</span>
                 <input
                   type="text"
                   name="codes"
                   className="mt-2 w-full border-2 border-ink bg-paper px-4 py-3 font-sans"
-                  placeholder="Np. PKD 62.01.Z"
+                  placeholder={content.form.codesPlaceholder}
                 />
               </label>
 
               <button type="submit" className="btn-invert bg-lime border-2 border-ink px-6 py-4 font-mono text-sm font-bold tracking-widest uppercase">
-                Wyślij zgłoszenie →
+                {content.form.submitLabel}
               </button>
             </form>
           </div>
