@@ -1,0 +1,57 @@
+name: Build and deploy to SEOHost
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: seohost-production
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      FTP_SERVER: ${{ secrets.SEOHOST_FTP_SERVER }}
+      FTP_USERNAME: ${{ secrets.SEOHOST_FTP_USERNAME }}
+      FTP_PASSWORD: ${{ secrets.SEOHOST_FTP_PASSWORD }}
+      FTP_DIRECTORY: ${{ secrets.SEOHOST_FTP_DIRECTORY }}
+
+    steps:
+      - name: Download project from GitHub
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run calculator tests
+        run: npm test
+
+      - name: Check TypeScript
+        run: npm run typecheck
+
+      - name: Build production page
+        run: npm run build
+
+      - name: Deploy dist folder to SEOHost
+        if: ${{ env.FTP_SERVER != '' && env.FTP_USERNAME != '' && env.FTP_PASSWORD != '' && env.FTP_DIRECTORY != '' }}
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        with:
+          server: ${{ env.FTP_SERVER }}
+          username: ${{ env.FTP_USERNAME }}
+          password: ${{ env.FTP_PASSWORD }}
+          protocol: ${{ secrets.SEOHOST_FTP_PROTOCOL || 'ftp' }}
+          local-dir: ./dist/
+          server-dir: ${{ env.FTP_DIRECTORY }}
+          dangerous-clean-slate: false
+
+      - name: Explain why deployment was skipped
+        if: ${{ env.FTP_SERVER == '' || env.FTP_USERNAME == '' || env.FTP_PASSWORD == '' || env.FTP_DIRECTORY == '' }}
+        run: echo "Build completed, but SEOHost FTP secrets are not configured yet."
