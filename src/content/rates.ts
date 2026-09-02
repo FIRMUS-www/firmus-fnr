@@ -1,5 +1,5 @@
 export const rates: { rate: string; cat: string; tag: string }[] = [
-    { rate: "2%",   cat: "Sprzedaż produktów spożywczych przetworzonych we własnym gospodarstwie.", tag: "ROLNICTWO" },
+    { rate: "2%",   cat: "Sprzedaż produktów spożywczych przetworzonych we własnym gospodarstwie.", tag: "ROLNICY" },
     { rate: "3%",   cat: "M.in. handel i gastronomia bez sprzedaży alkoholu powyżej 1,5%", tag: "HANDEL" },
     { rate: "5,5%", cat: "M.in. działalność wytwórcza i roboty budowlane", tag: "PRODUKCJA · BUDOWA" },
     { rate: "8,5%", cat: "M.in. wybrane usługi i edukacja; zakres zależy od faktycznie wykonywanych czynności", tag: "WYBRANE USŁUGI" },
