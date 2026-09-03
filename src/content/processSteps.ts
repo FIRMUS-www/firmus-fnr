@@ -8,6 +8,6 @@ export const steps: { n: string; t: string; d: string }[] = [
 
 export const processSectionContent = {
   eyebrow: "§ 03 — proces",
-  titleLine1: "OD ZERA",
-  titleLine2: "DO PIT-28",
+  titleLine1: "OK. POLICZONE",
+  titleLine2: "KTO MA TO OGARNIAĆ?",
 };
