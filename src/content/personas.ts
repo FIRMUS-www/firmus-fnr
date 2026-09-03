@@ -8,7 +8,7 @@ export const personas: { tag: string; t: string; d: string; emoji: string }[] = 
   ];
 
 export const personasSectionContent = {
-  eyebrow: "§ 04 — dla kogo",
+  eyebrow: "§ 04 - dla kogo",
   titleLine1: "NIE DLA",
   titleLine2: "KAŻDEGO",
   description:
