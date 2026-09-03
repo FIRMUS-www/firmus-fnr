@@ -11,5 +11,5 @@ export const processSectionContent = {
   titleLine1: "OK. POLICZONE",
   titleLine2: "KTO MA TO OGARNIAĆ?",
     description:
-    "Możesz księgować samodzielnie. Możesz mieć to z głowy już od 55 zł / msc 😎 <br> Zero haczyków, 30 dni na sprawdzenie, zero ryzyka.",
+    "Możesz księgować samodzielnie. Możesz mieć to z głowy już od 55 zł / msc 😎<br>Zero haczyków. 30 dni na sprawdzenie. Zero ryzyka.",
 };
