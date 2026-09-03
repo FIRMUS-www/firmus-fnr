@@ -8,6 +8,10 @@ export default function Proces() {
         {content.titleLine1}<span className="text-lime">.</span><br/>{content.titleLine2}
       </h2>
 
+      <p className="mt-6 mb-12 text-lg md:text-xl text-ink/80 max-w-3xl">
+        {content.description}
+      </p>   
+      
       <div className="grid grid-cols-1 md:grid-cols-5 gap-0">
         {steps.map((step, index) => (
           <div key={step.n} className={`border-2 border-ink p-5 md:p-6 ${index < steps.length - 1 ? "md:border-r-2 md:-mr-[2px]" : ""} ${index % 2 === 0 ? "bg-cream" : "bg-lime"}`}>
