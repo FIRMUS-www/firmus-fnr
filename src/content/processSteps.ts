@@ -3,7 +3,7 @@ export const steps: { n: string; t: string; d: string }[] = [
     { n: "02", t: "Umowa", d: "Transparentna, prosta, bez drobnego druczku i ukrytych dopłat. Prosta do rozwiązania. Elastyczna - dopasowana do etapu na jakim jesteś." },
     { n: "03", t: "Apka", d: "W cenie masz apkę, w której ogarniasz firmowe finanse: dokumenty, faktury, podatki, ZUS i kontakt z księgowym. Wszystko w jednym miejscu." },
     { n: "04", t: "Test", d: "Masz 30 dni na sprawdzenie. Nie pasuje? Kasa wraca do Ciebie. Bez pytań i bez problemów." },
-    { n: "05", t: "Nie pilnujesz terminów, limitów, formularzy i deklaracji. Od tego masz nas. Ty prowadzisz firmę." },
+    { n: "05", t: "Lecimy", d: "Nie pilnujesz terminów, limitów, formularzy i deklaracji. Od tego masz nas. Ty prowadzisz firmę." },
   ];
 
 export const processSectionContent = {
