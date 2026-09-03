@@ -3,12 +3,10 @@ export const contactContent = {
   titleLines: {
     first: "POGADAJMY",
     secondBeforeAccent: "O",
-    secondAccent: "TWOIM",
-    third: "RYCZAŁCIE",
+    secondAccent: "TWOJEJ",
+    third: "FIRMIE",
   },
   email: { label: "MAIL", value: "czesc@firmanaryczalcie.pl" },
-  phone: { label: "TELEFON", value: "+48 500 000 000", href: "+48500000000" },
-  office: { label: "BIURO", line1: "ul. Podatkowa 12/4", line2: "00-001 Warszawa" },
-  primaryCta: "Umów konsultację 45 min",
-  secondaryCta: "Newsletter (1x w miesiącu)",
+  phone: { label: "TELEFON", value: "+48 727 791 155", href: "+48727791155" },
+  office: { label: "BIURO", line1: "ul. Jana III Sobieskiego 105", line2: "43-300 Bielsko-Biała" },
 };
