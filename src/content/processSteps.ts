@@ -11,9 +11,9 @@ export const processSectionContent = {
   titleLine1: "OK. POLICZONE",
   titleLine2: "KTO MA TO OGARNIAĆ?",
     description:
-    "Możesz księgować samodzielnie. Możesz mieć to z głowy już od 55 zł / msc 😎<br>Zero haczyków. 30 dni na sprawdzenie. Zero ryzyka.",
+    "Możesz księgować samodzielnie. Możesz mieć to z głowy już od 55 zł / msc 😎 Zero haczyków. 30 dni na sprawdzenie. Zero ryzyka.",
   cta: {
-    label: "ZRÓBMY SZYBKĄ WYCENĘ",
+    label: "▸ ZRÓBMY SZYBKĄ WYCENĘ",
     href: "#kontakt",
   },
 };
