@@ -1,17 +1,17 @@
 export const heroContent = {
   ticker: [
-    "● NAZWISK NIE POKAZUJEMY",
+    "NOWE POMYSŁY RZĄDU NA 2027 R.",
     "STAWKI OD 2% DO 17% · SPRAWDŹ PKWiU",
-    "LIMIT 2 MLN EUR",
-    "BEZ KSIĘGI HANDLOWEJ",
+    "ZMIANA STAWKI POWYŻEJ 100 000 ZŁ",
+    "POMOC W REJESTRACJI FIRMY",
     "EDG#CEIDG#VAT",
   ],
   edition: "Wydanie 07 / Lato 2026",
   updatedAt: "· aktualizacja 2 września 2026",
   title: "RYCZAŁT",
   leadHighlight: "Porównaj opcje",
-  leadMiddle: "i przekonaj się, czy na ryczałcie",
-  leadEndHighlight: "rzeczywiście zapłacisz mniej.",
+  leadMiddle: "i przekonaj się, czy ryczałt",
+  leadEndHighlight: "rzeczywiście Ci się opłaci.",
   primaryCta: { label: "Kalkulator opłacalności", href: "#kalkulator" },
   secondaryCta: { label: "Przykłady firm", href: "#dla-kogo" },
   summary: {
