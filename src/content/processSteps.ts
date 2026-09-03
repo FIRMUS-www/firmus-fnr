@@ -10,4 +10,6 @@ export const processSectionContent = {
   eyebrow: "§ 03 - księgowość",
   titleLine1: "OK. POLICZONE",
   titleLine2: "KTO MA TO OGARNIAĆ?",
+    description:
+    "Możesz samodzielnie. Możesz mieć to z głowy już za 55 zł 😎",
 };
