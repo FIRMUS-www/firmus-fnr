@@ -1,42 +1,61 @@
+export type ContributionStage = "start" | "preferential" | "standard";
+
 export type CalculatorInput = {
   monthlyRevenue: number;
   monthlyCosts: number;
   flatRate: number;
   sicknessInsurance: boolean;
+  contributionStage: ContributionStage;
 };
 
 export type CalculatorResult = {
-  MIESIACE: number;
-  ZUS_PREFERENCYJNY: number;
-  zusSpolecznyRoczny: number;
-  zdrowotnaRyczaltRoczna: number;
-  podatekRyczaltRoczny: number;
-  razemRyczaltRoczny: number;
-  zdrowotnaSkalaRoczna: number;
-  podatekSkalaRoczny: number;
-  razemSkalaRoczny: number;
+  MONTHS: number;
+  monthlySocialZus: number;
+  annualSocialZus: number;
+  annualFlatRateHealth: number;
+  annualFlatRateTax: number;
+  annualFlatRateTotal: number;
+  annualScaleHealth: number;
+  annualScaleTax: number;
+  annualScaleTotal: number;
 };
 
 const MONTHS = 12;
-const START_RELIEF_MONTHS = 6;
-const PREFERENTIAL_ZUS_MONTHS = MONTHS - START_RELIEF_MONTHS;
 const PREFERENTIAL_ZUS_WITH_SICKNESS = 456.18;
 const PREFERENTIAL_ZUS_WITHOUT_SICKNESS = 420.86;
+const STANDARD_ZUS_WITH_SICKNESS = 1_926.76;
+const STANDARD_ZUS_WITHOUT_SICKNESS = 1_788.29;
 const MINIMUM_SCALE_HEALTH_MONTHLY = 432.54;
+
+export function getMonthlySocialZus(
+  stage: ContributionStage,
+  sicknessInsurance: boolean,
+): number {
+  if (stage === "start") return 0;
+  if (stage === "preferential") {
+    return sicknessInsurance
+      ? PREFERENTIAL_ZUS_WITH_SICKNESS
+      : PREFERENTIAL_ZUS_WITHOUT_SICKNESS;
+  }
+  return sicknessInsurance
+    ? STANDARD_ZUS_WITH_SICKNESS
+    : STANDARD_ZUS_WITHOUT_SICKNESS;
+}
 
 export function calculateTaxComparison(input: CalculatorInput): CalculatorResult {
   const monthlyRevenue = Math.max(0, input.monthlyRevenue);
   const monthlyCosts = Math.max(0, input.monthlyCosts);
   const flatRate = Math.max(0, input.flatRate);
-  const preferentialZus = input.sicknessInsurance
-    ? PREFERENTIAL_ZUS_WITH_SICKNESS
-    : PREFERENTIAL_ZUS_WITHOUT_SICKNESS;
+  const monthlySocialZus = getMonthlySocialZus(
+    input.contributionStage,
+    input.sicknessInsurance,
+  );
 
   const annualRevenue = monthlyRevenue * MONTHS;
   const annualCosts = monthlyCosts * MONTHS;
-  const annualSocialZus = preferentialZus * PREFERENTIAL_ZUS_MONTHS;
+  const annualSocialZus = monthlySocialZus * MONTHS;
 
-  // Ryczałt: paid social contributions reduce revenue for the health threshold.
+  // Ryczałt: paid social contributions reduce revenue used for the health threshold.
   const healthThresholdRevenue = Math.max(0, annualRevenue - annualSocialZus);
   const flatRateHealthMonthly =
     healthThresholdRevenue <= 60_000
@@ -71,14 +90,14 @@ export function calculateTaxComparison(input: CalculatorInput): CalculatorResult
   const annualScaleTotal = annualScaleTax + annualScaleHealth + annualSocialZus;
 
   return {
-    MIESIACE: MONTHS,
-    ZUS_PREFERENCYJNY: preferentialZus,
-    zusSpolecznyRoczny: annualSocialZus,
-    zdrowotnaRyczaltRoczna: annualFlatRateHealth,
-    podatekRyczaltRoczny: annualFlatRateTax,
-    razemRyczaltRoczny: annualFlatRateTotal,
-    zdrowotnaSkalaRoczna: annualScaleHealth,
-    podatekSkalaRoczny: annualScaleTax,
-    razemSkalaRoczny: annualScaleTotal,
+    MONTHS,
+    monthlySocialZus,
+    annualSocialZus,
+    annualFlatRateHealth,
+    annualFlatRateTax,
+    annualFlatRateTotal,
+    annualScaleHealth,
+    annualScaleTax,
+    annualScaleTotal,
   };
 }

@@ -1,61 +1,56 @@
 import { describe, expect, it } from "vitest";
-import { calculateTaxComparison } from "./calculator";
+import { calculateTaxComparison, getMonthlySocialZus } from "./calculator";
+
+const defaults = {
+  monthlyRevenue: 10_000,
+  monthlyCosts: 1_000,
+  flatRate: 8.5,
+  sicknessInsurance: true,
+} as const;
 
 describe("calculateTaxComparison", () => {
-  it("calculates the default 10,000 / 1,000 / 8.5% scenario", () => {
+  it("uses no social contributions during start relief", () => {
     const result = calculateTaxComparison({
-      monthlyRevenue: 10_000,
-      monthlyCosts: 1_000,
-      flatRate: 8.5,
-      sicknessInsurance: true,
+      ...defaults,
+      contributionStage: "start",
     });
 
-    expect(result.ZUS_PREFERENCYJNY).toBe(456.18);
-    expect(result.zusSpolecznyRoczny).toBeCloseTo(2_737.08, 2);
-    expect(result.zdrowotnaRyczaltRoczna).toBeCloseTo(9_966.96, 2);
-    expect(result.podatekRyczaltRoczny).toBeCloseTo(9_543.75, 2);
-    expect(result.razemRyczaltRoczny).toBeCloseTo(22_247.79, 2);
-
-    expect(result.podatekSkalaRoczny).toBeCloseTo(9_031.55, 2);
-    expect(result.zdrowotnaSkalaRoczna).toBeCloseTo(9_473.66, 2);
-    expect(result.razemSkalaRoczny).toBeCloseTo(21_242.29, 2);
+    expect(result.monthlySocialZus).toBe(0);
+    expect(result.annualSocialZus).toBe(0);
+    expect(result.annualFlatRateTotal).toBeCloseTo(19_743.36, 2);
+    expect(result.annualScaleTotal).toBeCloseTo(19_080, 2);
   });
 
-  it("uses the lower preferential ZUS without voluntary sickness insurance", () => {
+  it("uses preferential contributions in months 7–30", () => {
     const result = calculateTaxComparison({
-      monthlyRevenue: 10_000,
-      monthlyCosts: 1_000,
-      flatRate: 8.5,
-      sicknessInsurance: false,
+      ...defaults,
+      contributionStage: "preferential",
     });
 
-    expect(result.ZUS_PREFERENCYJNY).toBe(420.86);
-    expect(result.zusSpolecznyRoczny).toBeCloseTo(2_525.16, 2);
+    expect(result.monthlySocialZus).toBe(456.18);
+    expect(result.annualSocialZus).toBeCloseTo(5_474.16, 2);
+  });
+
+  it("uses standard contributions from month 31", () => {
+    const withSickness = getMonthlySocialZus("standard", true);
+    const withoutSickness = getMonthlySocialZus("standard", false);
+
+    expect(withSickness).toBe(1_926.76);
+    expect(withoutSickness).toBe(1_788.29);
   });
 
   it("selects all three ryczałt health contribution thresholds", () => {
-    const low = calculateTaxComparison({
-      monthlyRevenue: 4_000,
-      monthlyCosts: 0,
-      flatRate: 8.5,
-      sicknessInsurance: true,
-    });
-    const middle = calculateTaxComparison({
-      monthlyRevenue: 10_000,
-      monthlyCosts: 0,
-      flatRate: 8.5,
-      sicknessInsurance: true,
-    });
-    const high = calculateTaxComparison({
-      monthlyRevenue: 30_000,
-      monthlyCosts: 0,
-      flatRate: 8.5,
-      sicknessInsurance: true,
-    });
+    const calculate = (monthlyRevenue: number) =>
+      calculateTaxComparison({
+        ...defaults,
+        monthlyRevenue,
+        monthlyCosts: 0,
+        contributionStage: "start",
+      });
 
-    expect(low.zdrowotnaRyczaltRoczna).toBeCloseTo(498.35 * 12, 2);
-    expect(middle.zdrowotnaRyczaltRoczna).toBeCloseTo(830.58 * 12, 2);
-    expect(high.zdrowotnaRyczaltRoczna).toBeCloseTo(1_495.04 * 12, 2);
+    expect(calculate(4_000).annualFlatRateHealth).toBeCloseTo(498.35 * 12, 2);
+    expect(calculate(10_000).annualFlatRateHealth).toBeCloseTo(830.58 * 12, 2);
+    expect(calculate(30_000).annualFlatRateHealth).toBeCloseTo(1_495.04 * 12, 2);
   });
 
   it("applies the tax-free amount and minimum scale health contribution", () => {
@@ -64,10 +59,11 @@ describe("calculateTaxComparison", () => {
       monthlyCosts: 500,
       flatRate: 8.5,
       sicknessInsurance: true,
+      contributionStage: "start",
     });
 
-    expect(result.podatekSkalaRoczny).toBe(0);
-    expect(result.zdrowotnaSkalaRoczna).toBeCloseTo(432.54 * 12, 2);
+    expect(result.annualScaleTax).toBe(0);
+    expect(result.annualScaleHealth).toBeCloseTo(432.54 * 12, 2);
   });
 
   it("applies the 32% scale rate above 120,000 PLN", () => {
@@ -76,10 +72,11 @@ describe("calculateTaxComparison", () => {
       monthlyCosts: 0,
       flatRate: 12,
       sicknessInsurance: true,
+      contributionStage: "standard",
     });
 
-    const income = 240_000 - 456.18 * 6;
+    const income = 240_000 - 1_926.76 * 12;
     const expectedTax = 10_800 + (income - 120_000) * 0.32;
-    expect(result.podatekSkalaRoczny).toBeCloseTo(expectedTax, 2);
+    expect(result.annualScaleTax).toBeCloseTo(expectedTax, 2);
   });
 });
