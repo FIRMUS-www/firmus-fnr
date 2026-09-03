@@ -1,9 +1,9 @@
 export const steps: { n: string; t: string; d: string }[] = [
-    { n: "01", t: "Wycena", d: "Oświadczenie składasz co do zasady do 20. dnia miesiąca po miesiącu uzyskania pierwszego przychodu w roku (albo do końca roku, jeśli pierwszy przychód jest w grudniu)." },
-    { n: "02", t: "Umowa", d: "CEIDG lub KRS. Nadanie NIP/REGON. Zgłoszenie do ZUS (ZUA/ZZA)." },
-    { n: "03", t: "Start", d: "Prowadzisz uproszczoną ewidencję przychodów. Nie ewidencjonujesz kosztów." },
-    { n: "04", t: "Test", d: "Co miesiąc do 20. dnia - podatek za poprzedni miesiąc. Bez PIT-5, bez zaliczek." },
-    { n: "05", t: "Lecimy", d: "PIT-28 składasz od 15 lutego do 30 kwietnia następnego roku. Pamiętaj też o rocznym rozliczeniu składki zdrowotnej." },
+    { n: "01", t: "Wycena", d: "Całkowity miesięczny koszt od 55zł. Warunek: do 10 dokumentów + zapłata abonamentu na całyrok z góry = 660 zł. Inne scenariusze? - kliknij przycisk poniżej." },
+    { n: "02", t: "Umowa", d: "Transparentna, prosta, bez drobnego druczku i ukrytych dopłat. Prosta do rozwiązania. Elastyczna - dopasowana do etapu na jakim jesteś." },
+    { n: "03", t: "Start", d: "Dostajesz apkę do wszystkiego: faktury, VAT, KSeF, ZUS itd. itp. wraz z łatwym dostępem do księgowego." },
+    { n: "04", t: "Test", d: "Masz 30 dni na sprawdzenie. Nie pasuje? Kasa wraca do Ciebie. Bez pytań i bez problemów." },
+    { n: "05", t: "Lecimy", d: "Zapominasz o pamiętaniu o terminach, limitach, formularzach i deklaracjach. Od tego jest księgowość." },
   ];
 
 export const processSectionContent = {
@@ -11,5 +11,5 @@ export const processSectionContent = {
   titleLine1: "OK. POLICZONE",
   titleLine2: "KTO MA TO OGARNIAĆ?",
     description:
-    "Możesz samodzielnie. Możesz mieć to z głowy już za 55 zł 😎",
+    "Możesz księgować samodzielnie. Możesz mieć to z głowy już od 55 zł / msc 😎 <br> Zero haczyków, 30 dni na sprawdzenie, zero ryzyka.",
 };
