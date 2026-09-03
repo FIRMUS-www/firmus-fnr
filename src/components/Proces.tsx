@@ -20,6 +20,15 @@ export default function Proces() {
             <div className="font-mono text-xs mt-3 text-ink/80 leading-snug">{step.d}</div>
           </div>
         ))}
+            </div>
+
+      <div className="mt-10">
+        <a
+          href={content.cta.href}
+          className="btn-invert inline-block bg-lime text-ink border-2 border-ink px-6 py-4 font-mono text-sm font-bold tracking-widest uppercase"
+        >
+          {content.cta.label}
+        </a>
       </div>
     </section>
   );
