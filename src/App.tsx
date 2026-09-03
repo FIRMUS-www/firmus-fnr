@@ -19,8 +19,8 @@ export default function App() {
         <Zmiany2027 />
         <Stawki />
         <Kalkulator />
-        <DlaKogo />
         <Proces />
+        <DlaKogo />
         <Fakty />
         <FAQ />
         <Kontakt />
