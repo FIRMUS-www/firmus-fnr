@@ -25,11 +25,6 @@ export default function Kontakt() {
             <div className="font-display text-xl md:text-2xl">{content.office.line1}<br/>{content.office.line2}</div>
           </div>
         </div>
-
-        <div className="mt-10 flex flex-wrap gap-3">
-          <a href="#" className="btn-invert bg-lime text-ink border-2 border-lime px-6 py-4 font-mono text-sm font-bold tracking-widest uppercase">{content.primaryCta}</a>
-          <a href="#" className="btn-invert bg-transparent text-cream border-2 border-cream px-6 py-4 font-mono text-sm font-bold tracking-widest uppercase">{content.secondaryCta}</a>
-        </div>
       </div>
     </section>
   );
