@@ -7,7 +7,7 @@ export const steps: { n: string; t: string; d: string }[] = [
   ];
 
 export const processSectionContent = {
-  eyebrow: "§ 04 — proces",
+  eyebrow: "§ 03 — proces",
   titleLine1: "OD ZERA",
   titleLine2: "DO PIT-28",
 };
