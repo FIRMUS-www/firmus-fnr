@@ -12,7 +12,7 @@ export const rates: { rate: string; cat: string; tag: string }[] = [
   ];
 
 export const ratesSectionContent = {
-  eyebrow: "§ 01 — stawki ryczałtu",
+  eyebrow: "§ 01 - stawki ryczałtu",
   titleLine1: "ILE",
   titleLine2: "ZAPŁACISZ",
   description:
