@@ -14,6 +14,6 @@ export const processSectionContent = {
     "Możesz ogarniać księgowość samodzielnie. Albo mieć ją z głowy już od 55 zł / mies. 😎 Zero haczyków. 30 dni na sprawdzenie. Zero ryzyka.",
   cta: {
     label: "▸ ZRÓBMY SZYBKĄ WYCENĘ",
-    href: "#kontakt",
+    href: "#wycena",
   },
 };
