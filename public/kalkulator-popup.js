@@ -28,8 +28,9 @@
     + '#fnrOv{position:fixed;inset:0;background:rgba(10,10,10,.45);display:none;align-items:center;justify-content:center;z-index:99990;padding:18px;}'
     + '#fnrOv.open{display:flex;}'
     + '#fnrOv *{box-sizing:border-box;}'
-    + '#fnrFrame{background:var(--cream);border:2px solid var(--ink);box-shadow:0 24px 70px rgba(0,0,0,.4);'
-    + 'width:min(680px,100%);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;font-family:var(--fsans);color:var(--ink);}'
+    + '#fnrFrame{background:var(--cream);border:2px solid var(--ink);'
+    + 'width:min(680px,100%);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;font-family:var(--fsans);color:var(--ink);'
+    + 'box-shadow:12px 12px 0 var(--lime);}'
     + '#fnrFrame .bar{background:var(--ink);color:var(--cream);display:flex;align-items:center;justify-content:space-between;padding:14px 20px;}'
     + '#fnrFrame .bar .t{font-family:var(--fmono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;}'
     + '#fnrClose{background:none;border:none;color:var(--cream);font-family:var(--fdisp);font-size:30px;line-height:1;cursor:pointer;padding:0 2px;}'
@@ -49,7 +50,7 @@
     + '#fnrRes{margin-top:26px;border-top:2px solid var(--ink);padding-top:24px;}'
     + '#fnrRes .rq{font-family:var(--fmono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;margin:0 0 14px;}'
     + '#fnrVars{display:grid;grid-template-columns:1fr 1fr;gap:16px;}'
-    + '#fnrVars .var{background:var(--paper);border:2px solid var(--cream-dark);display:flex;flex-direction:column;}'
+    + '#fnrVars .var{background:var(--paper);border:2px solid var(--ink);display:flex;flex-direction:column;}'
     + '#fnrVars .var .hd{padding:16px 18px;border-bottom:2px solid var(--ink);}'
     + '#fnrVars .var .hd .eb{font-family:var(--fmono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;}'
     + '#fnrVars .var .hd h4{font-family:var(--fdisp);text-transform:uppercase;font-size:24px;margin:8px 0 0;line-height:1;}'
@@ -67,15 +68,26 @@
     + '#fnrCont .n a{color:var(--ink);text-decoration:none;}'
     + '#fnrEmpty{border:2px dashed rgba(10,10,10,.25);padding:22px;text-align:center;font-family:var(--fmono);'
     + 'font-size:12px;color:rgba(10,10,10,.5);}'
-    + '#fnrFoot{margin-top:20px;border-top:2px solid var(--ink);padding-top:16px;display:flex;align-items:center;'
-    + 'justify-content:space-between;gap:14px;flex-wrap:wrap;}'
-    + '#fnrGo{background:var(--ink);color:var(--cream);border:2px solid var(--ink);cursor:pointer;'
+    + '#fnrFoot{margin-top:20px;border-top:2px solid var(--ink);padding-top:22px;}'
+    + '#fnrFoot h3{font-family:var(--fdisp);font-size:24px;line-height:1;text-transform:uppercase;margin:0 0 8px;}'
+    + '#fnrFoot .lead{font-size:14px;margin:0 0 16px;}'
+    + '#fnrPhoneForm,#fnrEmailForm{margin:0;}'
+    + '#fnrLeadFields{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;margin-bottom:10px;}'
+    + '#fnrFoot input[type="tel"],#fnrFoot input[type="text"],#fnrFoot input[type="email"]{width:100%;border:2px solid var(--ink);background:var(--paper);'
+    + 'color:var(--ink);padding:13px 14px;font-family:var(--fsans);font-size:14px;border-radius:0;}'
+    + '#fnrFoot input::placeholder{color:rgba(10,10,10,.5);}'
+    + '#fnrGo{background:var(--lime);color:var(--ink);border:2px solid var(--ink);cursor:pointer;'
     + 'font-family:var(--fmono);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;'
     + 'padding:14px 20px;transition:background .15s,color .15s;}'
-    + '#fnrGo:hover{background:var(--lime);color:var(--ink);border-color:var(--ink);}'
-    + '#fnrFoot .tel{font-family:var(--fmono);font-size:12px;color:rgba(10,10,10,.6);}'
-    + '#fnrFoot .tel a{color:var(--ink);text-decoration:none;font-weight:700;}'
-    + '@media(max-width:640px){#fnrVars{grid-template-columns:1fr;}}';
+    + '#fnrGo:hover{background:var(--ink);color:var(--lime);}'
+    + '#fnrEmailToggle{display:flex;align-items:center;gap:10px;margin-top:16px;font-family:var(--fmono);font-size:11px;cursor:pointer;}'
+    + '#fnrEmailToggle input{width:18px;height:18px;margin:0;accent-color:var(--ink);}'
+    + '#fnrEmailForm{display:none;margin-top:12px;grid-template-columns:1fr auto;gap:10px;}'
+    + '#fnrEmailForm.open{display:grid;}'
+    + '#fnrEmailGo{background:var(--ink);color:var(--cream);border:2px solid var(--ink);cursor:pointer;white-space:nowrap;'
+    + 'font-family:var(--fmono);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:14px 20px;}'
+    + '#fnrEmailGo:hover{background:var(--lime);color:var(--ink);}'
+    + '@media(max-width:640px){#fnrVars{grid-template-columns:1fr;}#fnrLeadFields,#fnrEmailForm.open{grid-template-columns:1fr;}#fnrGo,#fnrEmailGo{width:100%;}}';
 
   // 2) markup pop-upu
   var html = ''
@@ -97,8 +109,18 @@
     + '        <span><span class="lbl">Jestem na VAT</span></span>'
     + '      </label>'
     + '      <div id="fnrRes"><p class="rq">Koszt na miesiąc</p><div id="fnrVR"></div></div>'
-    + '      <div id="fnrFoot"><button id="fnrGo">To dla mnie — umów bezpłatne demo</button>'
-    + '        <span class="tel">Wolisz od razu? <a href="tel:+48727791155">+48 727 791 155</a></span></div>'
+    + '      <div id="fnrFoot">'
+    + '        <h3>Chcesz taką księgowość?</h3>'
+    + '        <p class="lead">Zostaw numer. Resztę ogarniemy razem.</p>'
+    + '        <form id="fnrPhoneForm">'
+    + '          <div id="fnrLeadFields"><input type="tel" id="fnrPhone" name="phone" placeholder="Telefon" aria-label="Telefon" required>'
+    + '          <input type="text" id="fnrName" name="name" placeholder="Imię" aria-label="Imię" required></div>'
+    + '          <button id="fnrGo" type="submit">Oddzwoń do mnie →</button>'
+    + '        </form>'
+    + '        <label id="fnrEmailToggle"><input type="checkbox" id="fnrEmailMode"> Wolisz e-mail?</label>'
+    + '        <form id="fnrEmailForm"><input type="email" id="fnrEmail" name="email" placeholder="Twój e-mail" aria-label="Twój e-mail">'
+    + '          <button id="fnrEmailGo" type="submit">Napisz do mnie →</button></form>'
+    + '      </div>'
     + '    </div>'
     + '  </div>'
     + '</div>';
@@ -168,16 +190,37 @@
   });
   document.getElementById('fnrVat').addEventListener('change', function(){ isVat = this.checked; render(); });
 
-  // przycisk "umów demo" — domyślnie prowadzi do sekcji kontaktu (#kontakt), można nadpisać:
-  // window.FNR_DEMO_URL = "https://..."; w index.html
-  document.getElementById('fnrGo').addEventListener('click', function(){
-    close();
-    var url = window.FNR_DEMO_URL || '#kontakt';
-    if(url === '#kontakt'){
-      var t = document.getElementById('kontakt');
-      if(t){ t.scrollIntoView({behavior:'smooth'}); return; }
-    }
-    if(url && url !== '#kontakt'){ window.location.href = url; }
+  function quoteSummary(){
+    if(docSel===null || docSel===51) return 'Wycena indywidualna';
+    var i = IDX[docSel];
+    return 'Dokumenty: '+docsLabel(docSel)+', VAT: '+(isVat?'tak':'nie')+', Pre-Paid: '
+      +(PRICES.prepaid.m[i]+(isVat?PRICES.prepaid.vat:0))+' zł/mies., Abonament: '
+      +(PRICES.abo.m[i]+(isVat?PRICES.abo.vat:0))+' zł/mies.';
+  }
+
+  document.getElementById('fnrPhoneForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var phone = document.getElementById('fnrPhone').value.trim();
+    var name = document.getElementById('fnrName').value.trim();
+    var subject = encodeURIComponent('Prośba o kontakt telefoniczny — wycena księgowości');
+    var body = encodeURIComponent('Imię: '+name+'\nTelefon: '+phone+'\n'+quoteSummary());
+    window.location.href = 'mailto:czesc@firmanaryczalcie.pl?subject='+subject+'&body='+body;
+  });
+
+  document.getElementById('fnrEmailMode').addEventListener('change', function(){
+    var form = document.getElementById('fnrEmailForm');
+    var email = document.getElementById('fnrEmail');
+    form.classList.toggle('open', this.checked);
+    email.required = this.checked;
+    if(this.checked) email.focus();
+  });
+
+  document.getElementById('fnrEmailForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = document.getElementById('fnrEmail').value.trim();
+    var subject = encodeURIComponent('Kontakt e-mail — wycena księgowości');
+    var body = encodeURIComponent('Mój e-mail: '+email+'\n'+quoteSummary());
+    window.location.href = 'mailto:czesc@firmanaryczalcie.pl?subject='+subject+'&body='+body;
   });
 
   ov.addEventListener('click', function(e){ if(e.target === ov) close(); });
