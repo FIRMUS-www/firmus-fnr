@@ -9,11 +9,11 @@ export const heroContent = {
   edition: "Wydanie 07 / Lato 2026",
   updatedAt: "· aktualizacja 2 września 2026",
   title: "RYCZAŁT",
-  leadHighlight: "Porównaj opcje",
-  leadMiddle: "i przekonaj się, czy ryczałt",
-  leadEndHighlight: "rzeczywiście Ci się opłaci.",
+  leadHighlight: "Sprawdź",
+  leadMiddle: "czy ryczałt rzeczywiście Ci się",
+  leadEndHighlight: "opłaci.",
   primaryCta: { label: "Kalkulator opłacalności", href: "#kalkulator" },
-  secondaryCta: { label: "Przykłady firm", href: "#dla-kogo" },
+  secondaryCta: { label: "Firmy na ryczałcie", href: "#dla-kogo" },
   summary: {
     title: "Ryczałt w 2026",
     items: [
