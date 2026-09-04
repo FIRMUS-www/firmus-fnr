@@ -71,6 +71,9 @@
     + '#fnrFoot{margin-top:20px;border-top:2px solid var(--ink);padding-top:22px;}'
     + '#fnrFoot h3{font-family:var(--fdisp);font-size:24px;line-height:1;text-transform:uppercase;margin:0 0 8px;}'
     + '#fnrFoot .lead{font-size:14px;margin:0 0 16px;}'
+    + '#fnrConsentLabel{display:flex;align-items:flex-start;gap:10px;margin:0 0 16px;font-size:11px;line-height:1.45;color:rgba(10,10,10,.7);cursor:pointer;}'
+    + '#fnrConsentLabel input{width:18px;height:18px;min-width:18px;margin:1px 0 0;accent-color:var(--ink);cursor:pointer;}'
+    + '#fnrConsentLabel a{color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:2px;}'
     + '#fnrPhoneForm,#fnrEmailForm{margin:0;}'
     + '#fnrLeadFields{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;margin-bottom:10px;}'
     + '#fnrFoot input[type="tel"],#fnrFoot input[type="text"],#fnrFoot input[type="email"]{width:100%;border:2px solid var(--ink);background:var(--paper);'
@@ -112,6 +115,8 @@
     + '      <div id="fnrFoot">'
     + '        <h3>Chcesz taką księgowość?</h3>'
     + '        <p class="lead">Zostaw numer. Resztę ogarniemy razem.</p>'
+    + '        <label id="fnrConsentLabel"><input type="checkbox" id="fnrConsent">'
+    + '          <span>Wyrażam zgodę na wykorzystanie podanych danych do kontaktu w sprawie wyceny oraz akceptuję <a href="/polityka" target="_blank" rel="noopener">politykę prywatności</a> i <a href="/regulamin" target="_blank" rel="noopener">regulamin</a>.</span></label>'
     + '        <form id="fnrPhoneForm">'
     + '          <div id="fnrLeadFields"><input type="tel" id="fnrPhone" name="phone" placeholder="Telefon" aria-label="Telefon" required>'
     + '          <input type="text" id="fnrName" name="name" placeholder="Imię" aria-label="Imię" required></div>'
@@ -198,8 +203,17 @@
       +(PRICES.abo.m[i]+(isVat?PRICES.abo.vat:0))+' zł/mies.';
   }
 
+  function hasConsent(){
+    var consent = document.getElementById('fnrConsent');
+    if(consent.checked) return true;
+    alert('Zaznacz zgodę na kontakt i akceptację dokumentów.');
+    consent.focus();
+    return false;
+  }
+
   document.getElementById('fnrPhoneForm').addEventListener('submit', function(e){
     e.preventDefault();
+    if(!hasConsent()) return;
     var phone = document.getElementById('fnrPhone').value.trim();
     var name = document.getElementById('fnrName').value.trim();
     var subject = encodeURIComponent('Prośba o kontakt telefoniczny — wycena księgowości');
@@ -217,6 +231,7 @@
 
   document.getElementById('fnrEmailForm').addEventListener('submit', function(e){
     e.preventDefault();
+    if(!hasConsent()) return;
     var email = document.getElementById('fnrEmail').value.trim();
     var subject = encodeURIComponent('Kontakt e-mail — wycena księgowości');
     var body = encodeURIComponent('Mój e-mail: '+email+'\n'+quoteSummary());
