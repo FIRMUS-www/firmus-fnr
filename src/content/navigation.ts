@@ -5,8 +5,8 @@ export const navigationContent = {
   brandAfterAccent: "RYCZAŁCIE",
   edition: "#2026",
   links: [
-    { label: "Dobierz stawkę", href: "#stawki" },
     { label: "Sprawdź opłacalność", href: "#kalkulator" },
+    { label: "Dobierz stawkę", href: "#stawki" },
     { label: "Księgowość", href: "#ksiegowosc" },
   ],
   cta: { label: "Zarejestruj firmę za 0 zł", href: "#kontakt" },
