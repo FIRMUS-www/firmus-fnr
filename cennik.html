@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Szybka wycena — FirmaNaRyczałcie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#EDE7D9; --cream-dark:#e2dacc; --paper:#F6F2E8;
+    --ink:#0a0a0a; --lime:#D8FF3D; --orange:#FF5C28;
+    --font-display:'Archivo Black',"Arial Black",sans-serif;
+    --font-sans:'Space Grotesk',system-ui,Arial,sans-serif;
+    --font-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--font-sans);line-height:1.5;}
+
+  .mono-label{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.1em;}
+  .display{font-family:var(--font-display);text-transform:uppercase;letter-spacing:-.02em;line-height:.95;}
+  .display .sq{color:var(--lime);}
+  .display .sq-o{color:var(--orange);}
+
+  .wrap{max-width:960px;margin:0 auto;padding:56px 20px 90px;}
+
+  .crumbs{font-family:var(--font-mono);font-size:11px;color:rgba(10,10,10,.5);margin:0 0 26px;}
+  .crumbs a{color:inherit;text-decoration:none;}
+  .crumbs a:hover{color:var(--ink);}
+
+  h1.display{font-size:clamp(48px,11vw,104px);margin:0 0 6px;}
+  .lead{font-size:18px;max-width:620px;margin:0 0 34px;color:var(--ink);}
+  .lead b{font-weight:700;}
+
+  /* ---------- karty modeli ---------- */
+  .models{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .model{background:var(--paper);border:2px solid var(--cream-dark);display:flex;flex-direction:column;}
+  .model .head{padding:22px 22px;border-bottom:2px solid var(--ink);}
+  .model .head .eyebrow{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;}
+  .model .head h3{font-family:var(--font-display);text-transform:uppercase;font-size:30px;line-height:1;margin:10px 0 0;letter-spacing:-.01em;}
+  .model .body{padding:22px;}
+  .model .price{font-family:var(--font-display);font-size:44px;line-height:1;margin:6px 0 2px;}
+  .model .price small{font-size:15px;font-weight:400;font-family:var(--font-mono);color:rgba(10,10,10,.55);}
+  .model .sub{font-family:var(--font-mono);font-size:12px;color:rgba(10,10,10,.55);margin:0 0 18px;}
+  .model .desc{font-size:14px;margin:0 0 18px;}
+
+  table{width:100%;border-collapse:collapse;font-size:14px;border-top:2px solid var(--ink);}
+  thead th{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+    text-align:left;color:rgba(10,10,10,.5);padding:9px 6px;border-bottom:1px solid var(--cream-dark);}
+  tbody td{padding:9px 6px;border-bottom:1px solid var(--cream-dark);}
+  tbody td:first-child{font-weight:700;}
+  tbody td b{font-weight:700;}
+  tbody .dim{color:rgba(10,10,10,.5);font-style:normal;}
+
+  /* ---------- blok startujących ---------- */
+  .start{border:2px solid var(--ink);background:var(--cream-dark);padding:26px;margin-top:20px;}
+  .start h3{font-family:var(--font-display);text-transform:uppercase;font-size:22px;margin:0 0 12px;}
+  .start p{font-size:15px;margin:0 0 8px;max-width:640px;}
+
+  /* ---------- notka VAT ---------- */
+  .vat{font-size:13px;color:rgba(10,10,10,.6);margin-top:26px;max-width:720px;}
+  .vat b{color:var(--ink);}
+
+  /* ---------- CTA ---------- */
+  .cta{margin-top:34px;}
+  .btn{display:inline-flex;align-items:center;gap:10px;border:2px solid var(--ink);
+    font-family:var(--font-mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    padding:18px 26px;cursor:pointer;background:var(--lime);color:var(--ink);transition:background .15s,color .15s;}
+  .btn:hover{background:var(--ink);color:var(--lime);}
+  .cta .hint{font-family:var(--font-mono);font-size:11px;color:rgba(10,10,10,.5);margin-top:12px;}
+
+  .mini{font-family:var(--font-mono);font-size:10px;color:rgba(10,10,10,.4);margin-top:40px;}
+
+  /* ============ MODAL (pop-up wyceny) ============ */
+  .overlay{position:fixed;inset:0;background:rgba(10,10,10,.45);display:none;align-items:center;justify-content:center;z-index:60;padding:18px;}
+  .overlay.open{display:flex;}
+  .frame{background:var(--cream);border:2px solid var(--ink);box-shadow:0 24px 70px rgba(0,0,0,.4);
+    width:min(680px,100%);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;}
+  .frame .bar{background:var(--ink);color:var(--cream);display:flex;align-items:center;justify-content:space-between;padding:14px 20px;}
+  .frame .bar .t{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;}
+  .frame .bar .x{background:none;border:none;color:var(--cream);font-family:var(--font-display);font-size:30px;line-height:1;cursor:pointer;padding:0 2px;}
+  .frame .bar .x:hover{color:var(--orange);}
+  .frame .body{padding:24px 22px 30px;overflow-y:auto;}
+
+  .frame .q{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.12em;margin:0 0 12px;}
+  .frame .sub{font-family:var(--font-mono);font-size:11px;color:rgba(10,10,10,.5);margin:-6px 0 16px;}
+
+  .pills{display:flex;flex-wrap:wrap;gap:8px;}
+  .pill{font-family:var(--font-mono);font-size:12px;padding:9px 12px;border:2px solid rgba(10,10,10,.3);
+    background:transparent;color:var(--ink);cursor:pointer;transition:border-color .12s;}
+  .pill:hover{border-color:var(--ink);}
+  .pill.sel{background:var(--ink);color:var(--lime);border-color:var(--ink);}
+
+  .check{display:flex;align-items:flex-start;gap:12px;border-top:2px solid rgba(10,10,10,.2);padding-top:20px;margin-top:22px;cursor:pointer;}
+  .check input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--ink);cursor:pointer;}
+  .check .txt .lbl{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.12em;display:block;}
+  .check .txt .h{display:block;margin-top:4px;font-family:var(--font-mono);font-size:10px;color:rgba(10,10,10,.5);}
+
+  /* wynik - karty wariantów */
+  .res{margin-top:26px;border-top:2px solid var(--ink);padding-top:24px;}
+  .res .resq{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;margin:0 0 14px;}
+  .variants{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .variant{background:var(--paper);border:2px solid var(--cream-dark);display:flex;flex-direction:column;}
+  .variant .head{padding:16px 18px;border-bottom:2px solid var(--ink);}
+  .variant .head .eyebrow{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.14em;}
+  .variant .head h4{font-family:var(--font-display);text-transform:uppercase;font-size:24px;margin:8px 0 0;line-height:1;}
+  .variant .head.lime{background:var(--lime);}
+  .variant .head.orange{background:var(--orange);}
+  .variant .body{padding:18px;}
+  .variant .price{font-family:var(--font-display);font-size:40px;line-height:1;}
+  .variant .price small{font-size:13px;font-family:var(--font-mono);font-weight:400;color:rgba(10,10,10,.55);}
+  .variant .extra{font-family:var(--font-mono);font-size:11px;color:rgba(10,10,10,.6);margin-top:6px;}
+  .variant .note{font-size:13px;margin-top:10px;}
+  .badge{display:inline-block;font-family:var(--font-mono);font-size:10px;font-weight:700;letter-spacing:.1em;
+    text-transform:uppercase;background:var(--ink);color:var(--lime);padding:3px 7px;margin-bottom:8px;}
+
+  .contact{border:2px dashed var(--ink);padding:22px;text-align:center;background:var(--paper);}
+  .contact .n{font-family:var(--font-display);font-size:30px;letter-spacing:-.01em;margin-top:8px;}
+  .contact .n a{color:var(--ink);text-decoration:none;}
+  .contact .n a:hover{color:var(--orange);}
+
+  .empty{border:2px dashed rgba(10,10,10,.25);padding:22px;text-align:center;font-family:var(--font-mono);
+    font-size:12px;color:rgba(10,10,10,.5);}
+
+  .modalfoot{margin-top:20px;border-top:2px solid var(--ink);padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+  .modalfoot .btn{background:var(--ink);color:var(--cream);border-color:var(--ink);padding:14px 20px;font-size:12px;}
+  .modalfoot .btn:hover{background:var(--lime);color:var(--ink);}
+  .modalfoot .tel{font-family:var(--font-mono);font-size:12px;color:rgba(10,10,10,.6);}
+  .modalfoot .tel a{color:var(--ink);text-decoration:none;font-weight:700;}
+
+  @media(max-width:640px){
+    .models{grid-template-columns:1fr;}
+    .variants{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="crumbs"><a href="https://firmanaryczalcie.pl">firmanaryczalcie.pl</a> / cennik</p>
+
+  <p class="mono-label">§ 03 — księgowość</p>
+  <h1 class="display">Cennik<span class="sq">.</span></h1>
+  <p class="lead">Prościej, niż myślisz. Działasz na ryczałcie i masz do 50 dokumentów miesięcznie? Masz <b>dwie drogi</b> — i obie są uczciwe. Bez długoterminowej umowy: jak nie chcesz dalej, po prostu nie płacisz kolejnego miesiąca i koniec.</p>
+
+  <div class="models">
+    <!-- PREPAID -->
+    <div class="model">
+      <div class="head" style="background:var(--lime);">
+        <div class="eyebrow">Z góry za rok</div>
+        <h3>Pre-Paid</h3>
+      </div>
+      <div class="body">
+        <p class="desc">Płacisz raz, masz spokój na 12 miesięcy. Najlepsza cena.</p>
+        <div class="price">od 55 zł <small>/ mies.</small></div>
+        <p class="sub">Płacisz co miesiąc z góry · za cały rok: od 660 zł</p>
+        <table>
+          <thead><tr><th>Dokumenty</th><th>bez VAT</th><th>z VAT</th><th>rok z góry</th></tr></thead>
+          <tbody>
+            <tr><td>0–10</td><td><b>55 zł</b></td><td>75 zł</td><td>660 zł</td></tr>
+            <tr><td>11–20</td><td><b>75 zł</b></td><td>95 zł</td><td>900 zł</td></tr>
+            <tr><td>21–30</td><td><b>85 zł</b></td><td>105 zł</td><td>1020 zł</td></tr>
+            <tr><td>31–40</td><td><b>95 zł</b></td><td>115 zł</td><td>1140 zł</td></tr>
+            <tr><td>41–50</td><td><b>105 zł</b></td><td>125 zł</td><td>1260 zł</td></tr>
+            <tr><td>50+</td><td class="dim" colspan="3">indywidualnie · zadzwoń</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ABONAMENT -->
+    <div class="model">
+      <div class="head" style="background:var(--orange);">
+        <div class="eyebrow">Co miesiąc</div>
+        <h3>Abonament</h3>
+      </div>
+      <div class="body">
+        <p class="desc">Elastyczny — płacisz co miesiąc, bez umowy długoterminowej. Nie chcesz? Nie płacisz kolejnego miesiąca.</p>
+        <div class="price">od 95 zł <small>/ mies.</small></div>
+        <p class="sub">Płacisz co miesiąc · zero zobowiązań</p>
+        <table>
+          <thead><tr><th>Dokumenty</th><th>bez VAT</th><th>z VAT</th></tr></thead>
+          <tbody>
+            <tr><td>0–10</td><td><b>95 zł</b></td><td>125 zł</td></tr>
+            <tr><td>11–20</td><td><b>115 zł</b></td><td>145 zł</td></tr>
+            <tr><td>21–30</td><td><b>135 zł</b></td><td>165 zł</td></tr>
+            <tr><td>31–40</td><td><b>155 zł</b></td><td>185 zł</td></tr>
+            <tr><td>41–50</td><td><b>175 zł</b></td><td>205 zł</td></tr>
+            <tr><td>50+</td><td class="dim" colspan="2">indywidualnie · zadzwoń</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="start">
+    <h3>Dopiero zakładasz firmę?</h3>
+    <p>To jest ten moment. Startujesz z małą liczbą dokumentów, więc możesz zacząć od <b>najniższej stawki</b>, zanim firma urośnie. A jeśli chcesz tanio i bez miesięcznego pilnowania — wybierz <b>z góry za rok</b> i masz spokój na całe 12 miesięcy.</p>
+    <p>Nie wiesz, ile będziesz mieć dokumentów? <b>To normalne na starcie.</b> Wybierz przedział „0–10" — zmienimy go, jak podrośniesz. Bez kar, bez formalności.</p>
+  </div>
+
+  <p class="vat"><b>Co widzisz, to płacisz.</b> Jeżeli jesteś VAT-owcem, doliczamy stawkę: <b>+20 zł</b> przy modelu rocznym, <b>+30 zł</b> przy abonamencie. Bez ukrytych opłat, bez gwiazdek i drobnego druczku. Nie wiesz, czy jesteś VAT-owcem? W wycenie zaznacz odpowiednią opcję — liczymy to razem z Tobą.</p>
+
+  <div class="cta">
+    <button class="btn" id="openCalc"><span aria-hidden="true">▸</span> Zróbmy szybką wycenę</button>
+    <p class="hint">2 minuty, bez rejestracji, bez zobowiązań. Pokażę Ci dokładną kwotę dla Twojej firmy.</p>
+  </div>
+
+  <p class="mini">Prototyp w 100% stylu FNR — pigułki wyboru, checkbox akcent, karty nagłówków lime/orange odwzorowane z kalkulatora opłacalności na firmanaryczalcie.pl.</p>
+</div>
+
+<!-- ==================== MODAL — WYCENA ==================== -->
+<div class="overlay" id="overlay">
+  <div class="frame" role="dialog" aria-modal="true">
+    <div class="bar">
+      <span class="t">SZYBKA WYCENA · 2 MINUTY</span>
+      <button class="x" id="closeCalc" aria-label="Zamknij">×</button>
+    </div>
+    <div class="body">
+      <p class="q">Ile dokumentów miesięcznie?</p>
+      <p class="sub">Nie musi być co do sztuki — wybierz najbliższy przedział.</p>
+      <div class="pills" id="docPills">
+        <button class="pill" data-docs="0">0–10</button>
+        <button class="pill" data-docs="20">11–20</button>
+        <button class="pill" data-docs="30">21–30</button>
+        <button class="pill" data-docs="40">31–40</button>
+        <button class="pill" data-docs="50">41–50</button>
+        <button class="pill" data-docs="51">50+</button>
+      </div>
+
+      <label class="check" id="vatCheck">
+        <input type="checkbox" id="vatBox">
+        <span class="txt">
+          <span class="lbl">Jestem na VAT</span>
+          <span class="h">Stawka: +20 zł (rocznie) / +30 zł (abonament) / miesięcznie.</span>
+        </span>
+      </label>
+
+      <div class="res">
+        <p class="resq">Koszt na miesiąc</p>
+        <div id="result"></div>
+      </div>
+
+      <div class="modalfoot">
+        <button class="btn" id="goCalc">To dla mnie — umów bezpłatne demo</button>
+        <span class="tel">Wolisz od razu? <a href="tel:+48727791155">+48 727 791 155</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const PRICES = {
+    prepaid:{m:[55,75,85,95,105], vat:20, annual:true},
+    abo:{m:[95,115,135,155,175], vat:30, annual:false}
+  };
+  let docs = null, isVat = false;
+
+  const IDX = {0:0,20:1,30:2,40:3,50:4};
+  const docsLabel = d => d===0 ? '0–10' : (d===20?'11–20':d===30?'21–30':d===40?'31–40':d===50?'41–50':'50+');
+  const fmt = n => new Intl.NumberFormat('pl-PL',{maximumFractionDigits:0}).format(n);
+  const monthly = (base, vat) => base + (isVat ? vat : 0);
+
+  function render(){
+    const r = document.getElementById('result');
+    if(docs===null){
+      r.innerHTML = '<div class="empty">Wybierz liczbę dokumentów, żeby zobaczyć koszt na miesiąc.</div>';
+      return;
+    }
+    if(docs===51){
+      r.innerHTML = `<div class="contact">
+          <div class="mono-label" style="color:rgba(10,10,10,.6);">Ponad 50 dokumentów miesięcznie</div>
+          <div class="n"><a href="tel:+48727791155">+48 727 791 155</a></div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:rgba(10,10,10,.6);margin-top:6px;">Takie firmy wyceniam indywidualnie — zadzwoń, policzymy razem.</div>
+        </div>`;
+      return;
+    }
+    const dm = docsLabel(docs);
+    const i = IDX[docs];
+    const preM = monthly(PRICES.prepaid.m[i], PRICES.prepaid.vat);
+    const aboM = monthly(PRICES.abo.m[i], PRICES.abo.vat);
+    const preY = preM*12;
+
+    r.innerHTML = `
+      <div class="variants">
+        <div class="variant">
+          <div class="head lime">
+            <span class="eyebrow">Z góry za rok</span>
+            <h4>Pre-Paid</h4>
+          </div>
+          <div class="body">
+            <span class="badge">Najlepsza cena</span>
+            <div class="price">${fmt(preM)} zł <small>/ mies.</small></div>
+            <div class="extra">Za rok, z góry: <b>${fmt(preY)} zł</b></div>
+            <p class="note">Płacisz raz, masz spokój na 12 miesięcy. ${isVat?'(cena z VAT)':'(bez VAT)'}</p>
+          </div>
+        </div>
+        <div class="variant">
+          <div class="head orange">
+            <span class="eyebrow">Co miesiąc</span>
+            <h4>Abonament</h4>
+          </div>
+          <div class="body">
+            <div class="price">${fmt(aboM)} zł <small>/ mies.</small></div>
+            <div class="extra">Bez umowy długoterminowej</div>
+            <p class="note">Elastyczny — nie chcesz dalej? Nie płacisz kolejnego miesiąca. ${isVat?'(cena z VAT)':'(bez VAT)'}</p>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  document.querySelectorAll('#docPills .pill').forEach(p=>{
+    p.addEventListener('click',()=>{
+      document.querySelectorAll('#docPills .pill').forEach(x=>x.classList.remove('sel'));
+      p.classList.add('sel');
+      docs = Number(p.dataset.docs);
+      render();
+    });
+  });
+  document.getElementById('vatBox').addEventListener('change',function(){
+    isVat = this.checked;
+    render();
+  });
+  document.getElementById('goCalc').addEventListener('click',()=>{
+    if(docs===null){ alert('Najpierw wybierz liczbę dokumentów.'); return; }
+    if(docs===51){ alert('To prototyp — podłącz tu przekierowanie (kontakt telefoniczny / demo).'); return; }
+    const i = IDX[docs];
+    alert('To prototyp — podłącz tu przekierowanie (demo / formularz / mailto). Wycena: '+(PRICES.prepaid.m[i]+(isVat?PRICES.prepaid.vat:0))+' zł/mies. rocznie · '+(PRICES.abo.m[i]+(isVat?PRICES.abo.vat:0))+' zł/mies. abonament');
+  });
+
+  const ov=document.getElementById('overlay');
+  document.getElementById('openCalc').addEventListener('click',()=>{ ov.classList.add('open'); document.body.style.overflow='hidden'; });
+  document.getElementById('closeCalc').addEventListener('click',()=>{ ov.classList.remove('open'); document.body.style.overflow=''; });
+  ov.addEventListener('click',e=>{ if(e.target===ov){ ov.classList.remove('open'); document.body.style.overflow=''; } });
+  render();
+</script>
+</body>
+</html>
