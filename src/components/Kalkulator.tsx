@@ -100,7 +100,7 @@ export default function Kalkulator() {
         <h2 className="font-display text-[14vw] md:text-[9vw] leading-[0.85] tracking-tighter mt-4">
           {content.titleBeforeAccent} <span className="text-orange">{content.titleAccent}</span>
         </h2>
-        <p className="mt-6 text-lg md:text-xl text-cream/80">{content.description}</p>
+        <p className="mt-6 text-lg md:text-xl text-cream/80 whitespace-pre-line">{content.description}</p>
 
         <div className="mt-10">
           <div className="font-mono text-xs uppercase tracking-widest text-cream/60 mb-3">{content.stageSelectorEyebrow}</div>
