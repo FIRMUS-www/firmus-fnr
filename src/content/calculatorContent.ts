@@ -5,7 +5,9 @@ export const calculatorContent = {
   titleBeforeAccent: "POLICZMY",
   titleAccent: "TO",
   description:
-    "Wprowadź realistyczne dane i porównaj obciążenia na kolejnych etapach opłacania składek.",
+    "Wprowadź realistyczne dane - dostaniesz konkretny wynik.",  
+  description:
+    "Porównaj SUMĘ OBCIĄŻEŃ zależnie od opłacanych składek ZUS.",
   stageSelectorEyebrow: "Etap opłacania składek",
   stages: [
     {
@@ -48,7 +50,7 @@ export const calculatorContent = {
   },
   resultRows: {
     tax: "Podatek",
-    health: "Zdrowotna",
+    health: "ZUS zdrowotna",
     social: "ZUS społeczny",
     total: "Razem",
   },
