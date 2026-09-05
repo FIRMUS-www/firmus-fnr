@@ -5,7 +5,6 @@ export const calculatorContent = {
   titleBeforeAccent: "POLICZMY",
   titleAccent: "TO",
   description:
-    description:
   "Wprowadź realistyczne dane - dostaniesz konkretny wynik.\nPorównaj SUMĘ OBCIĄŻEŃ zależnie od opłacanych składek ZUS.",
   stageSelectorEyebrow: "Etap opłacania składek",
   stages: [
